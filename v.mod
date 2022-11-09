@@ -1,7 +1,7 @@
 Module {
 	name: 'flightos'
-	description: ''
+	description: 'An Arch Linux distro.'
 	version: ''
-	license: ''
+	license: 'MIT'
 	dependencies: []
 }
