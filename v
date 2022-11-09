@@ -2,7 +2,7 @@
 docker run \
 	--rm \
 	-i \
-	-v "$LOCAL_WORKSPACE_FOLDER":/src \
+	-v "${LOCAL_WORKSPACE_FOLDER:-$PWD}":/src \
 	thevlang/vlang:alpine-dev \
 	sh -c "apk add --no-cache -U sudo \
 		&& adduser -D vlang \
