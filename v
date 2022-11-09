@@ -1,4 +1,5 @@
 #!/bin/sh
+set
 docker run \
 	--rm \
 	-i \
