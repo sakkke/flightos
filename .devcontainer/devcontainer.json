@@ -24,7 +24,8 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"vlanguage.vscode-vlang"
+				"vlanguage.vscode-vlang",
+				"EditorConfig.EditorConfig"
 			]
 		}
 	}
