@@ -3,7 +3,7 @@
 all: build
 
 build:
-	./v-build -prod . -o flightos
+	./v-build -prod -o flightos .
 
 check:
 	./v test .
