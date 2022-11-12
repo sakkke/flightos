@@ -25,7 +25,8 @@
 		"vscode": {
 			"extensions": [
 				"vlanguage.vscode-vlang",
-				"EditorConfig.EditorConfig"
+				"EditorConfig.EditorConfig",
+				"GitHub.vscode-pull-request-github"
 			]
 		}
 	}
