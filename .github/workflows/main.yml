@@ -13,3 +13,4 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: flightos
+          generate_release_notes: true
