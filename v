@@ -3,8 +3,10 @@ docker run \
 	--rm \
 	-i \
 	-v "${LOCAL_WORKSPACE_FOLDER:-$PWD}":/src \
-	thevlang/vlang:alpine-dev \
-	sh -c "apk add --no-cache -U sudo \
-		&& adduser -D -u \"$(id -u)\" vlang \
+	thevlang/vlang:buster-dev \
+	sh -c "cd /src \
+		&& apt-get update \
+		&& apt-get --no-install-recommends -y install sudo \
+		&& useradd -m -u \"$(id -u)\" vlang \
 		&& chown -R vlang:vlang /opt/vlang \
 		&& sudo -u vlang v $*"
