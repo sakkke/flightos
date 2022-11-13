@@ -22,11 +22,14 @@ fn (mut i Installer) configure() {
 			'interactive' {
 				result := i.fzf.prompt(
 					choices: i.provider_map[key].get()
-					fzf_options: '--expect=ctrl-p'
+					fzf_options: '--expect=ctrl-n,ctrl-p'
 				)
 				input := result.first()
 				output := result[1..]
 				match input {
+					'ctrl-n' {
+						i.config_map[key] = original_config_map[key]
+					}
 					'ctrl-p' {
 						if j == 0 {
 							break
