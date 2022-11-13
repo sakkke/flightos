@@ -1,7 +1,6 @@
 #!/bin/sh
 set -eu
-temp="$(mktemp -d)"
-temp_bin="$temp/bin"
+temp_bin="$(mktemp -d)"
 mkdir "$temp_bin"
 trap "rm -fr \"$temp\"" EXIT
 FLIGHTOS="$temp/flightos"
