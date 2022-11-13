@@ -6,7 +6,7 @@ build:
 	./v-build -prod -o flightos .
 
 check:
-	./v test .
+	./v-build test .
 
 clean:
 	$(RM) flightos
