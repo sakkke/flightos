@@ -3,10 +3,10 @@
 all: build
 
 build:
-	./v-build -prod -o flightos .
+	./v-wrapper -prod -o flightos .
 
 check:
-	./v-build test .
+	./v-wraooer test .
 
 clean:
 	$(RM) flightos
