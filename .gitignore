@@ -12,3 +12,6 @@ flightos
 .idea/
 .vscode/
 *.iml
+
+# Releases
+flightos-*.tar.gz
