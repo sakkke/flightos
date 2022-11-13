@@ -20,7 +20,7 @@ fn main() {
 		config_map: config_map
 		fzf: new_fzf_prompt()
 		provider_map: {
-			'console_keymap': Provider{'find /usr/share/kbd/keymaps -name \"*.map.gz\" | xargs -n1 basename -s .map.gz'}
+			'console_keymap': Provider{'localectl list-keymaps --no-pager'}
 			'disk':           Provider{'sfdisk -l | grep "^Disk /" | awk "{ s = \\\$2; print substr(s, 1, length(s) - 1) }"'}
 		}
 	}
