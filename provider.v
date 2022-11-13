@@ -3,7 +3,9 @@ module main
 import os
 
 struct Provider {
-	cmd string
+	cmd   string
+	desc  string = ''
+	multi bool   = false
 }
 
 fn (p Provider) get() []string {

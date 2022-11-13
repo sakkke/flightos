@@ -11,19 +11,53 @@ fn main() {
 	fp.description('The Flight OS installer.')
 	fp.skip_executable()
 	mut config_map := map[string][]string{}
+	config_map['mount_prefix'] = [
+		fp.string('mount_prefix', 'M', '/mnt', 'The path to mount directory.'),
+	]
 	config_map['console_keymap'] = [
 		fp.string('console-keymap', `k`, 'interactive', 'The console keymap name.'),
 	]
 	config_map['disk'] = [fp.string('disk', `d`, 'interactive', 'The path to disk.')]
+	config_map['disk_label'] = [
+		fp.string('disk-label', `l`, 'gpt', 'The name of disk label.'),
+	]
+	config_map['installation_mode'] = [
+		fp.string('installation-mode', 'm', 'interactive', 'The installation mode.'),
+	]
+	config_map['packages'] = fp.string('packages', 'p', 'interactive', 'Comma-separated list of packages.').split(',')
+	config_map['root_partition'] = [
+		fp.string('root-partition', `r`, 'ROOT', 'The PARTLABEL name of root partition.'),
+	]
+	config_map['root_partition_fs'] = [
+		fp.string('root-partition-fs', `R`, 'ext4', 'The filesystem name of root partition.'),
+	]
+	config_map['root_partition_end'] = [
+		fp.string('root-partition-end', `o`, '100%', 'The filesystem end of root partition.'),
+	]
+	config_map['efi_system_partition'] = [
+		fp.string('efi-system-partition', `s`, 'EFI_SYSTEM', 'The PARTLABEL name of EFI system partition.'),
+	]
+	config_map['efi_system_partition_fs'] = [
+		fp.string('efi-system-partition-fs', `S`, 'ext4', 'The filesystem name of EFI system partition.'),
+	]
+	config_map['efi_system_partition_end'] = [
+		fp.string('efi-system-partition-end', `y`, '300MiB', 'The filesystem end of EFI system partition.'),
+	]
+	config_map['efi_system_partition_prefix'] = [
+		fp.string('efi-system-partition-prefix', `Y`, '/boot', 'The path that EFI system partition will be mounted.'),
+	]
 	fp.finalize()!
 	mut installer := Installer{
 		config_map: config_map
 		fzf: new_fzf_prompt()
 		provider_map: {
-			'console_keymap': Provider{'localectl list-keymaps --no-pager'}
-			'disk':           Provider{'sfdisk -l | grep "^Disk /" | awk "{ s = \\\$2; print substr(s, 1, length(s) - 1) }"'}
+			'console_keymap':    Provider{'localectl list-keymaps --no-pager'}
+			'installation_mode': Provider{'printf "Custom\nFull\n"'}
+			'disk':              Provider{'sfdisk -l | grep "^Disk /" | awk "{ s = \\\$2; print substr(s, 1, length(s) - 1) }"'}
+			'packages':          Provider{'pacman -Si | grep "^Name            : " | sed "s/^Name            : //"', '', true}
 		}
 	}
+	installer.setup()
 	installer.configure()
 	println(installer)
 }
