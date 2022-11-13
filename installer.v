@@ -22,7 +22,7 @@ fn (mut i Installer) configure() {
 			'interactive' {
 				result := i.fzf.prompt(
 					choices: i.provider_map[key].get()
-					fzf_options: '--expect=ctrl-l'
+					fzf_options: '--expect=ctrl-p'
 				)
 				input := result.first()
 				output := result[1..]
