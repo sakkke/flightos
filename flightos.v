@@ -20,8 +20,8 @@ fn main() {
 		config_map: config_map
 		fzf: new_fzf_prompt()
 		provider_map: {
-			'console_keymap': Provider{'ls /usr/share/kbd/keymaps/**/*.map.gz | xargs -n1 basename -s .map.gz'}
-			'disk':           Provider{'sfdisk -l | grep "^Disk /" | awk "{ s = \$2; print substr(s, 1, length(s) - 1) }"'}
+			'console_keymap': Provider{'find /usr/share/kbd/keymaps -name \"*.map.gz\" | xargs -n1 basename -s .map.gz'}
+			'disk':           Provider{'sfdisk -l | grep "^Disk /" | awk "{ s = \\\$2; print substr(s, 1, length(s) - 1) }"'}
 		}
 	}
 	installer.configure()
