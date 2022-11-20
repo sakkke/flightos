@@ -58,8 +58,9 @@ fn (mut i Installer) configure() {
 
 fn (i Installer) custom_partition() {
 	for {
-		os.system('parted "${i.config_map['disk'].first()}"')
-		if os.exists('/dev/disk/by-partlabel/${i.config_map['efi_system_partition'].first()}') && os.exists('/dev/disk/by-partlabel/${i.config_map['root_partition'].first()}') {
+		os.system('parted "' + i.config_map['disk'].first() + '"')
+		if os.exists('/dev/disk/by-partlabel/' + i.config_map['efi_system_partition'].first())
+			&& os.exists('/dev/disk/by-partlabel/' + i.config_map['root_partition'].first()) {
 			break
 		}
 	}
@@ -69,10 +70,12 @@ fn (i Installer) fs() {
 	fs_cmd := fn (s string) {
 		return match s {
 			'ext4' {
-				'mkfs.ext4 -F /dev/disk/by-partlabel/"${i.config_map['root_partition'].first()}"'
+				'mkfs.ext4 -F /dev/disk/by-partlabel/"' + i.config_map['root_partition'].first() +
+					'"'
 			}
 			'fat32' {
-				'mkfs.fat -F 32 /dev/disk/by-partlabel/"${i.config_map['efi_system_partition'].first()}"'
+				'mkfs.fat -F 32 /dev/disk/by-partlabel/"' +
+					i.config_map['efi_system_partition'].first() + '"'
 			}
 			else {
 				panic('Filesystem "$s" is not supported.')
@@ -88,21 +91,21 @@ fn (i Installer) fs() {
 
 fn (i Installer) full_partition() {
 	cmd := [
-		'parted'
-		'-s'
-		'"${i.config_map['disk'].first()}"'
-		'mklabel'
-		'"${i.config_map['disk_label'].first()}"'
-		'mkpart'
-		'"${i.config_map['efi_system_partition'].first()}"'
-		'"${i.config_map['efi_system_partition_fs'].first()}"'
-		'0%'
-		'"${i.config_map['efi_system_partition_end'].first()}"'
-		'mkpart'
-		'"${i.config_map['root_partition'].first()}"'
-		'"${i.config_map['root_partition_fs'].first()}"'
-		'"${i.config_map['efi_system_partition_end'].first()}"'
-		'"${i.config_map['root_partition_end'].first()}"'
+		'parted',
+		'-s',
+		'"' + i.config_map['disk'].first() + '"',
+		'mklabel',
+		'"' + i.config_map['disk_label'].first() + '"',
+		'mkpart',
+		'"' + i.config_map['efi_system_partition'].first() + '"',
+		'"' + i.config_map['efi_system_partition_fs'].first() + '"',
+		'0%',
+		'"' + i.config_map['efi_system_partition_end'].first() + '"',
+		'mkpart',
+		'"' + i.config_map['root_partition'].first() + '"',
+		'"' + i.config_map['root_partition_fs'].first() + '"',
+		'"' + i.config_map['efi_system_partition_end'].first() + '"',
+		'"' + i.config_map['root_partition_end'].first() + '"',
 	].join(' ')
 	result := os.execute(cmd)
 	if result.exit_code != 0 {
@@ -112,15 +115,16 @@ fn (i Installer) full_partition() {
 
 fn (i Installer) mount() {
 	cmd := [
-		'mount'
-		'--mkdir'
-		'/dev/disk/by-partlabel/"${i.config_map['root_partition'].first()}"'
-		'"${i.config_map['mount_prefix']}"'
-		'&&'
-		'mount'
-		'--mkdir'
-		'/dev/disk/by-partlabel/"${i.config_map['efi_system_partition'].first()}"'
-		'"${i.config_map['mount_prefix'].first()}${i.config_map['efi_system_partition_prefix'].first()}"'
+		'mount',
+		'--mkdir',
+		'/dev/disk/by-partlabel/"' + i.config_map['root_partition'].first() + '"',
+		'"' + i.config_map['mount_prefix'] + '"',
+		'&&',
+		'mount',
+		'--mkdir',
+		'/dev/disk/by-partlabel/"' + i.config_map['efi_system_partition'].first() + '"',
+		'"' + i.config_map['mount_prefix'].first() +
+			i.config_map['efi_system_partition_prefix'].first() + '"',
 	].join(' ')
 	result := os.execute(cmd)
 	if result.exit_code != 0 {
@@ -129,7 +133,8 @@ fn (i Installer) mount() {
 }
 
 fn (i Installer) pacstrap() {
-	cmd := 'pacstrap -K "${i.config_map['mount_prefix'].first()}" base linux linux-firmware ${i.config_map['packages'].join(' ')}'
+	cmd := 'pacstrap -K "' + i.config_map['mount_prefix'].first() +
+		'" base linux linux-firmware ${i.config_map['packages'].join(' ')}'
 	result := os.execute(cmd)
 }
 
@@ -144,7 +149,7 @@ fn (i Installer) run() {
 			i.fs()
 		}
 		else {
-			panic('Install mode "${i.config_map['installation_mode'].first()}" does not exist.')
+			panic('Install mode "' + i.config_map['installation_mode'].first() + '" does not exist.')
 		}
 	}
 }
