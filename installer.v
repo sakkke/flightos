@@ -144,10 +144,14 @@ fn (i Installer) run() {
 		'Custom' {
 			i.custom_partition()
 			i.fs()
+			i.mount()
+			i.pacstrap()
 		}
 		'Full' {
 			i.full_partition()
 			i.fs()
+			i.mount()
+			i.pacstrap()
 		}
 		else {
 			panic('Install mode "' + i.config_map['installation_mode'].first() + '" does not exist.')

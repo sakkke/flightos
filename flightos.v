@@ -38,7 +38,7 @@ fn main() {
 		fp.string('efi-system-partition', `s`, 'EFI_SYSTEM', 'The PARTLABEL name of EFI system partition.'),
 	]
 	config_map['efi_system_partition_fs'] = [
-		fp.string('efi-system-partition-fs', `S`, 'ext4', 'The filesystem name of EFI system partition.'),
+		fp.string('efi-system-partition-fs', `S`, 'fat32', 'The filesystem name of EFI system partition.'),
 	]
 	config_map['efi_system_partition_end'] = [
 		fp.string('efi-system-partition-end', `y`, '300MiB', 'The filesystem end of EFI system partition.'),
@@ -65,5 +65,6 @@ fn main() {
 	}
 	installer.setup()
 	installer.configure()
+	installer.run()
 	println(installer)
 }
