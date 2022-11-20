@@ -66,7 +66,7 @@ fn (i Installer) custom_partition() {
 }
 
 fn (i Installer) fs() {
-	fn fs_cmd(s string) {
+	fs_cmd := fn (s string) {
 		return match s {
 			'ext4' {
 				'mkfs.ext4 -F /dev/disk/by-partlabel/"${i.config_map['root_partition'].first()}"'
