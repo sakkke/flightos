@@ -81,9 +81,9 @@ fn (i Installer) fs() {
 		}
 	}
 	cmd := fs_cmd
-	result := os.execute(cmd)
-	if result.exit_code != 0 {
-		panic('A command "$cmd" returned non-zero exit code: $result.exit_code')
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
 	}
 }
 
@@ -105,9 +105,9 @@ fn (i Installer) full_partition() {
 		'"' + i.config_map['efi_system_partition_end'].first() + '"',
 		'"' + i.config_map['root_partition_end'].first() + '"',
 	].join(' ')
-	result := os.execute(cmd)
-	if result.exit_code != 0 {
-		panic('A command "$cmd" returned non-zero exit code: $result.exit_code')
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
 	}
 }
 
@@ -124,18 +124,18 @@ fn (i Installer) mount() {
 		'"' + i.config_map['mount_prefix'].first() +
 			i.config_map['efi_system_partition_prefix'].first() + '"',
 	].join(' ')
-	result := os.execute(cmd)
-	if result.exit_code != 0 {
-		panic('A command "$cmd" returned non-zero exit code: $result.exit_code')
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
 	}
 }
 
 fn (i Installer) pacstrap() {
 	cmd := 'pacstrap -K "' + i.config_map['mount_prefix'].first() +
 		'" base linux linux-firmware ${i.config_map['packages'].join(' ')}'
-	result := os.execute(cmd)
-	if result.exit_code != 0 {
-		panic('A command "$cmd" returned non-zero exit code: $result.exit_code')
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
 	}
 }
 
@@ -157,8 +157,8 @@ fn (i Installer) run() {
 
 fn (i Installer) setup() {
 	cmd := 'pacman -Sy'
-	result := os.execute(cmd)
-	if result.exit_code != 0 {
-		panic('A command "$cmd" returned non-zero exit code: $result.exit_code')
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
 	}
 }
