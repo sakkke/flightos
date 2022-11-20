@@ -2,6 +2,7 @@ module main
 
 import os
 import sakkke.vfzf { FzfPrompt }
+import time
 
 struct Installer {
 	fzf          FzfPrompt
@@ -67,23 +68,30 @@ fn (i Installer) custom_partition() {
 }
 
 fn (i Installer) fs() {
-	s := i.config_map['efi_system_partition_fs'].first()
-	fs_cmd := match s {
-		'ext4' {
-			'mkfs.ext4 -F /dev/disk/by-partlabel/"' + i.config_map['root_partition'].first() + '"'
-		}
-		'fat32' {
-			'mkfs.fat -F 32 /dev/disk/by-partlabel/"' +
-				i.config_map['efi_system_partition'].first() + '"'
-		}
-		else {
-			panic('Filesystem "$s" is not supported.')
+	fs_cmd := fn [i] (s string) string {
+		return match s {
+			'ext4' {
+				'mkfs.ext4 -F /dev/disk/by-partlabel/"' + i.config_map['root_partition'].first() +
+					'"'
+			}
+			'fat32' {
+				'mkfs.fat -F 32 /dev/disk/by-partlabel/"' +
+					i.config_map['efi_system_partition'].first() + '"'
+			}
+			else {
+				panic('Filesystem "$s" is not supported.')
+			}
 		}
 	}
-	cmd := fs_cmd
-	result := os.system(cmd)
-	if result != 0 {
-		panic('A command "$cmd" returned non-zero exit code: $result')
+	esp_cmd := fs_cmd(i.config_map['efi_system_partition_fs'].first())
+	esp_result := os.system(esp_cmd)
+	if esp_result != 0 {
+		panic('A command "$esp_cmd" returned non-zero exit code: $esp_result')
+	}
+	rp_cmd := fs_cmd(i.config_map['root_partition_fs'].first())
+	rp_result := os.system(rp_cmd)
+	if rp_result != 0 {
+		panic('A command "$rp_cmd" returned non-zero exit code: $rp_result')
 	}
 }
 
@@ -108,6 +116,13 @@ fn (i Installer) full_partition() {
 	result := os.system(cmd)
 	if result != 0 {
 		panic('A command "$cmd" returned non-zero exit code: $result')
+	}
+	for {
+		if os.exists('/dev/disk/by-partlabel/' + i.config_map['efi_system_partition'].first())
+			&& os.exists('/dev/disk/by-partlabel/' + i.config_map['root_partition'].first()) {
+			break
+		}
+		time.sleep(1 * time.second)
 	}
 }
 
