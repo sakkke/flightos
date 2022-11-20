@@ -15,8 +15,8 @@ struct Provider {
 	multi bool
 }
 
-fn new_provider(c ProviderConfig) &Provider {
-	return &Provider{
+fn new_provider(c ProviderConfig) Provider {
+	return Provider{
 		cmd: c.cmd
 		desc: c.desc
 		multi: c.multi
