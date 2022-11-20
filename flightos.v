@@ -12,7 +12,7 @@ fn main() {
 	fp.skip_executable()
 	mut config_map := map[string][]string{}
 	config_map['mount_prefix'] = [
-		fp.string('mount_prefix', 'M', '/mnt', 'The path to mount directory.'),
+		fp.string('mount_prefix', `M`, '/mnt', 'The path to mount directory.'),
 	]
 	config_map['console_keymap'] = [
 		fp.string('console-keymap', `k`, 'interactive', 'The console keymap name.'),
@@ -22,9 +22,9 @@ fn main() {
 		fp.string('disk-label', `l`, 'gpt', 'The name of disk label.'),
 	]
 	config_map['installation_mode'] = [
-		fp.string('installation-mode', 'm', 'interactive', 'The installation mode.'),
+		fp.string('installation-mode', `m`, 'interactive', 'The installation mode.'),
 	]
-	config_map['packages'] = fp.string('packages', 'p', 'interactive', 'Comma-separated list of packages.').split(',')
+	config_map['packages'] = fp.string('packages', `p`, 'interactive', 'Comma-separated list of packages.').split(',')
 	config_map['root_partition'] = [
 		fp.string('root-partition', `r`, 'ROOT', 'The PARTLABEL name of root partition.'),
 	]
@@ -51,10 +51,16 @@ fn main() {
 		config_map: config_map
 		fzf: new_fzf_prompt()
 		provider_map: {
-			'console_keymap':    Provider{'localectl list-keymaps --no-pager'}
-			'installation_mode': Provider{'printf "Custom\nFull\n"'}
-			'disk':              Provider{'sfdisk -l | grep "^Disk /" | awk "{ s = \\\$2; print substr(s, 1, length(s) - 1) }"'}
-			'packages':          Provider{'pacman -Si | grep "^Name            : " | sed "s/^Name            : //"', '', true}
+			'console_keymap':    new_provider(cmd: 'localectl list-keymaps --no-pager')
+			'installation_mode': new_provider(cmd: 'printf "Custom\nFull\n"')
+			'disk':              new_provider(
+				cmd: 'sfdisk -l | grep "^Disk /" | awk "{ s = \\\$2; print substr(s, 1, length(s) - 1) }"'
+			)
+			'packages':          new_provider(
+				cmd: 'pacman -Si | grep "^Name            : " | sed "s/^Name            : //"'
+				desc: ''
+				multi: true
+			)
 		}
 	}
 	installer.setup()

@@ -22,13 +22,13 @@ fn (mut i Installer) configure() {
 			}
 			'interactive' {
 				provider := i.provider_map[key]
-				fzf_options := ['--expect=ctrl-n,ctrl-p']
+				mut fzf_options := ['--expect=ctrl-n,ctrl-p']
 				if provider.multi {
 					fzf_options << '--multi'
 				}
 				result := i.fzf.prompt(
 					choices: provider.get()
-					fzf_options: fzf_options.split(' ')
+					fzf_options: fzf_options.join(' ')
 				)
 				input := result.first()
 				output := result[1..]
@@ -67,22 +67,20 @@ fn (i Installer) custom_partition() {
 }
 
 fn (i Installer) fs() {
-	fs_cmd := fn (s string) {
-		return match s {
-			'ext4' {
-				'mkfs.ext4 -F /dev/disk/by-partlabel/"' + i.config_map['root_partition'].first() +
-					'"'
-			}
-			'fat32' {
-				'mkfs.fat -F 32 /dev/disk/by-partlabel/"' +
-					i.config_map['efi_system_partition'].first() + '"'
-			}
-			else {
-				panic('Filesystem "$s" is not supported.')
-			}
+	s := i.config_map['efi_system_partition_fs'].first()
+	fs_cmd := match s {
+		'ext4' {
+			'mkfs.ext4 -F /dev/disk/by-partlabel/"' + i.config_map['root_partition'].first() + '"'
+		}
+		'fat32' {
+			'mkfs.fat -F 32 /dev/disk/by-partlabel/"' +
+				i.config_map['efi_system_partition'].first() + '"'
+		}
+		else {
+			panic('Filesystem "$s" is not supported.')
 		}
 	}
-	cmd := fs_cmd(i.config_map['efi_system_partition_fs'].first())
+	cmd := fs_cmd
 	result := os.execute(cmd)
 	if result.exit_code != 0 {
 		panic('A command "$cmd" returned non-zero exit code: $result.exit_code')
@@ -118,7 +116,7 @@ fn (i Installer) mount() {
 		'mount',
 		'--mkdir',
 		'/dev/disk/by-partlabel/"' + i.config_map['root_partition'].first() + '"',
-		'"' + i.config_map['mount_prefix'] + '"',
+		'"' + i.config_map['mount_prefix'].first() + '"',
 		'&&',
 		'mount',
 		'--mkdir',
@@ -136,6 +134,9 @@ fn (i Installer) pacstrap() {
 	cmd := 'pacstrap -K "' + i.config_map['mount_prefix'].first() +
 		'" base linux linux-firmware ${i.config_map['packages'].join(' ')}'
 	result := os.execute(cmd)
+	if result.exit_code != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result.exit_code')
+	}
 }
 
 fn (i Installer) run() {

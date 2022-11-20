@@ -2,10 +2,25 @@ module main
 
 import os
 
+[params]
+struct ProviderConfig {
+	cmd   string
+	desc  string
+	multi bool
+}
+
 struct Provider {
 	cmd   string
-	desc  string = ''
-	multi bool   = false
+	desc  string
+	multi bool
+}
+
+fn new_provider(c ProviderConfig) &Provider {
+	return &Provider{
+		cmd: c.cmd
+		desc: c.desc
+		multi: c.multi
+	}
 }
 
 fn (p Provider) get() []string {
