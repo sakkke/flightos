@@ -2,11 +2,11 @@
 An Arch Linux distro.
 
 ## Features
-- **One-line installation from Archiso**: Installer is written in [V](https://github.com/vlang/v).
-- **Fuzzy finder based UI**: Installer uses [fzf](https://github.com/junegunn/fzf).
+- **One-line installation from Archiso**: the installer is written in [V](https://github.com/vlang/v).
+- **Fuzzy finder based UI**: the installer uses [fzf](https://github.com/junegunn/fzf).
 
 ## Dependencies
-- [vfzf](https://github.com/sakkke/vfzf): A wrapper for [fzf](https://github.com/junegunn/fzf).
+- [vfzf](https://github.com/sakkke/vfzf): a wrapper for [fzf](https://github.com/junegunn/fzf).
 
 ## Setup
 
