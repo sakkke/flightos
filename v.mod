@@ -1,7 +1,7 @@
 Module {
 	name: 'flightos'
 	description: 'An Arch Linux distro.'
-	version: '2022.11.4'
+	version: '2022.11.5'
 	license: 'MIT'
 	dependencies: [
 		'sakkke.vfzf'
