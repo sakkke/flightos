@@ -13,7 +13,7 @@ jobs:
       - name: Test
         run: make check
       - name: Pack
-        run: tar -acf flightos-"$RELEASE_VERSION".tar.gz flightos
+        run: cd ./dist && tar -acf flightos-"$RELEASE_VERSION".tar.gz flightos
         if: startsWith(github.ref, 'refs/tags/')
       - name: Release
         uses: softprops/action-gh-release@v1

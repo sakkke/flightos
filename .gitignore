@@ -1,6 +1,6 @@
 # Binaries for programs and plugins
 main
-flightos
+dist
 *.exe
 *.exe~
 *.so

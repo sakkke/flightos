@@ -1,19 +1,22 @@
 DOCKER ?= docker
 VEXE := $(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build v
 VFLAGS ?=
+MKDIR_P := mkdir -p
+RM_RF := rm -rf
 
 .PHONY: all build build-container-build build-container-vlang build-force clean clean-container dev setup
 
 all: build
 
 build: setup
-	@$(VEXE) $(VFLAGS) -o flightos .
+	@$(MKDIR_P) ./dist
+	@$(VEXE) $(VFLAGS) -o ./dist/flightos ./cmd/flightos
 
 check: setup
-	@$(VEXE) $(VFLAGS) test .
+	@$(VEXE) $(VFLAGS) test ./cmd/flightos
 
 clean:
-	@$(RM) flightos
+	@$(RM_RF) ./dist
 	@if docker inspect --type image flightos-build > /dev/null 2>&1; then \
 		$(DOCKER) image rm flightos-build; \
 	fi
