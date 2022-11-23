@@ -11,4 +11,4 @@ curl -Ls "$FLIGHTOS_URL" | tar -zxf - -C "$temp_bin"
 if ! type fzf 2>&1 > /dev/null; then
     curl -Ls "$FZF_URL" | tar -zxf - -C "$temp_bin"
 fi
-PATH="$PATH:$temp_bin" "$FLIGHTOS" "$@"
+PATH="$temp_bin:$PATH" flightos "$@"
