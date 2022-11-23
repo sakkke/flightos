@@ -6,7 +6,7 @@ all: build
 
 build:
 	@$(MAKE) setup
-	@$(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build -prod -o flightos .
+	@$(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build v -prod -o flightos .
 
 build-container-build: build-container-vlang
 	@$(DOCKER) build -t flightos-build -f ./containers/build/Dockerfile .
@@ -18,7 +18,7 @@ build-force: build-container-vlang build-container-build flightos
 
 check:
 	@$(MAKE) setup
-	@$(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build test .
+	@$(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build v test .
 
 clean:
 	@$(RM) flightos

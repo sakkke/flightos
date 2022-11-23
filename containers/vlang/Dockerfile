@@ -8,5 +8,3 @@ RUN apt-get update \
     && chown -R vlang:vlang /opt/vlang
 
 USER vlang
-
-ENTRYPOINT [ "v" ]
