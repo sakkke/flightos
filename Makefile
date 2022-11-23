@@ -9,26 +9,26 @@ RM_RF := rm -rf
 all: build
 
 build: setup
-	@$(MKDIR_P) ./dist
-	@$(VEXE) $(VFLAGS) -o ./dist/flightos ./cmd/flightos
+	$(MKDIR_P) ./dist
+	$(VEXE) $(VFLAGS) -o ./dist/flightos ./cmd/flightos
 
 check: setup
-	@$(VEXE) $(VFLAGS) test ./cmd/flightos
+	$(VEXE) $(VFLAGS) test ./cmd/flightos
 
 clean:
-	@$(RM_RF) ./dist
-	@if docker inspect --type image flightos-build > /dev/null 2>&1; then \
+	$(RM_RF) ./dist
+	if docker inspect --type image flightos-build > /dev/null 2>&1; then \
 		$(DOCKER) image rm flightos-build; \
 	fi
-	@if docker inspect --type image flightos-vlang > /dev/null 2>&1; then \
+	if docker inspect --type image flightos-vlang > /dev/null 2>&1; then \
 		$(DOCKER) image rm flightos-vlang; \
 	fi
 
 dev: setup
-	@$(DOCKER) run --rm -it -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build
+	$(DOCKER) run --rm -it -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build
 
 setup:
-	@if ! docker inspect --type image flightos-build > /dev/null 2>&1; then \
+	if ! docker inspect --type image flightos-build > /dev/null 2>&1; then \
 		$(DOCKER) build --build-arg VLANG_UID="$(shell id -u)" -t flightos-vlang ./containers/vlang; \
 		$(DOCKER) build -t flightos-build -f ./containers/build/Dockerfile .; \
 	fi
