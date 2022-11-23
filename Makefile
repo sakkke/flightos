@@ -6,12 +6,10 @@ VFLAGS ?=
 
 all: build
 
-build:
-	@$(MAKE) setup
+build: setup
 	@$(VEXE) $(VFLAGS) -prod -o flightos .
 
-check:
-	@$(MAKE) setup
+check: setup
 	@$(VEXE) $(VFLAGS) test .
 
 clean:
@@ -23,8 +21,7 @@ clean:
 		$(DOCKER) image rm flightos-vlang; \
 	fi
 
-dev:
-	@$(MAKE) setup
+dev: setup
 	@$(DOCKER) run --rm -it -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build
 
 setup:
