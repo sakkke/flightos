@@ -21,8 +21,14 @@ fn main() {
 	config_map['disk_label'] = [
 		fp.string('disk-label', `l`, 'gpt', 'The name of disk label.'),
 	]
+	config_map['hostname'] = [
+		fp.string('hostname', `h`, 'flightos', 'The hostname.'),
+	]
 	config_map['installation_mode'] = [
 		fp.string('installation-mode', `m`, 'interactive', 'The installation mode.'),
+	]
+	config_map['locale'] = [
+		fp.string('locale', `l`, 'interactive', 'The locale.'),
 	]
 	config_map['packages'] = fp.string('packages', `p`, 'interactive', 'Comma-separated list of packages.').split(',')
 	config_map['root_partition'] = [
@@ -39,6 +45,9 @@ fn main() {
 	]
 	config_map['efi_system_partition_fs'] = [
 		fp.string('efi-system-partition-fs', `S`, 'fat32', 'The filesystem name of EFI system partition.'),
+	]
+	config_map['timezone'] = [
+		fp.string('timezone', `t`, 'interactive', 'The time zone.'),
 	]
 	config_map['efi_system_partition_end'] = [
 		fp.string('efi-system-partition-end', `y`, '300MiB', 'The filesystem end of EFI system partition.'),
@@ -60,6 +69,10 @@ fn main() {
 				cmd: 'pacman -Si | grep "^Name            : " | sed "s/^Name            : //"'
 				desc: ''
 				multi: true
+			)
+			'timezone':          new_provider(cmd: 'timedatectl list-timezones --no-pager')
+			'locale':            new_provider(
+				cmd: 'cat /etc/locale.gen | grep "^#[a-z]" | sed "s/^#//"'
 			)
 		}
 	}
