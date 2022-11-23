@@ -7,7 +7,7 @@ VFLAGS ?=
 all: build
 
 build: setup
-	@$(VEXE) $(VFLAGS) -prod -o flightos .
+	@$(VEXE) $(VFLAGS) -o flightos .
 
 check: setup
 	@$(VEXE) $(VFLAGS) test .

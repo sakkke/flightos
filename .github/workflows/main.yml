@@ -9,7 +9,7 @@ jobs:
       - name: Setup
         run: echo RELEASE_VERSION="${GITHUB_REF#refs/tags/*}" >> "$GITHUB_ENV"
       - name: Build
-        run: make
+        run: make VFLAGS=-prod
       - name: Test
         run: make check
       - name: Pack
