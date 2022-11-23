@@ -1,4 +1,6 @@
 DOCKER ?= docker
+VEXE := $(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build v
+VFLAGS ?=
 
 .PHONY: all build build-container-build build-container-vlang build-force clean clean-container dev setup
 
@@ -6,11 +8,11 @@ all: build
 
 build:
 	@$(MAKE) setup
-	@$(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build v -prod -o flightos .
+	@$(VEXE) $(VFLAGS) -prod -o flightos .
 
 check:
 	@$(MAKE) setup
-	@$(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build v test .
+	@$(VEXE) $(VFLAGS) test .
 
 clean:
 	@$(RM) flightos
