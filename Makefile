@@ -9,7 +9,7 @@ build:
 	$(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build -prod -o flightos .
 
 build-container-build: build-container-vlang
-	$(DOCKER) build --build-arg VLANG_UID="$(shell id -u)" -t flightos-build -f ./containers/build/Dockerfile .
+	$(DOCKER) build -t flightos-build -f ./containers/build/Dockerfile .
 
 build-container-vlang:
 	$(DOCKER) build --build-arg VLANG_UID="$(shell id -u)" -t flightos-vlang ./containers/vlang
