@@ -4,11 +4,41 @@ import os
 import sakkke.vfzf { FzfPrompt }
 import time
 
+const base_packages = [
+	'base',
+	'efibootmgr',
+	'grub',
+	'linux',
+	'linux-firmware',
+	'networkmanager',
+]
+
 struct Installer {
 	fzf          FzfPrompt
 	provider_map map[string]Provider
 mut:
 	config_map map[string][]string
+}
+
+fn (i Installer) bootloader() {
+	cmd := [
+		'arch-chroot',
+		i.config_map['mount_prefix'].first(),
+		'grub-install',
+		'--target=x86_64-efi',
+		'--efi-directory=/boot',
+		'--bootloader-id=GRUB',
+		'&&',
+		'arch-chroot',
+		i.config_map['mount_prefix'].first(),
+		'grub-mkconfig',
+		'-o',
+		'/boot/grub/grub.cfg',
+	].join(' ')
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
+	}
 }
 
 fn (mut i Installer) configure() {
@@ -95,6 +125,15 @@ fn (i Installer) fs() {
 	}
 }
 
+fn (i Installer) fstab() {
+	cmd := 'genfstab -t PARTUUID ' + i.config_map['mount_prefix'].first() + ' >> ' +
+		i.config_map['mount_prefix'].first() + '/etc/fstab'
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
+	}
+}
+
 fn (i Installer) full_partition() {
 	cmd := [
 		'parted',
@@ -126,6 +165,47 @@ fn (i Installer) full_partition() {
 	}
 }
 
+fn (i Installer) localization() {
+	cmd := [
+		'arch-chroot',
+		i.config_map['mount_prefix'].first(),
+		'sed',
+		'-i',
+		r'"s/^#\(' + i.config_map['locale'].first() + r'\)$/\1/"',
+		'/etc/locale.gen',
+		'&&',
+		'arch-chroot',
+		i.config_map['mount_prefix'].first(),
+		'locale-gen',
+		'&&',
+		'echo',
+		'LANG="' + i.config_map['locale'].first().split(' ').first() + '"',
+		'|',
+		'arch-chroot',
+		i.config_map['mount_prefix'].first(),
+		'tee',
+		'/etc/locale.conf',
+		'>',
+		'/dev/null',
+		'2>&1',
+		'&&',
+		'echo',
+		'KEYMAP="' + i.config_map['console_keymap'].first() + '"',
+		'|',
+		'arch-chroot',
+		i.config_map['mount_prefix'].first(),
+		'tee',
+		'/etc/vconsole.conf',
+		'>',
+		'/dev/null',
+		'2>&1',
+	].join(' ')
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
+	}
+}
+
 fn (i Installer) mount() {
 	cmd := [
 		'mount',
@@ -145,9 +225,47 @@ fn (i Installer) mount() {
 	}
 }
 
+fn (i Installer) network() {
+	cmd := [
+		'echo',
+		'"' + i.config_map['hostname'].first() + '"',
+		'|',
+		'arch-chroot',
+		i.config_map['mount_prefix'].first(),
+		'tee',
+		'/etc/hostname',
+		'>',
+		'/dev/null',
+		'2>&1',
+		'&&',
+		'arch-chroot',
+		i.config_map['mount_prefix'].first(),
+		'systemctl enable NetworkManager.service',
+	].join(' ')
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
+	}
+}
+
 fn (i Installer) pacstrap() {
-	cmd := 'pacstrap -K "' + i.config_map['mount_prefix'].first() +
-		'" base linux linux-firmware ${i.config_map['packages'].join(' ')}'
+	cmd := 'pacstrap -K "' + i.config_map['mount_prefix'].first() + '" ' + base_packages.join(' ') +
+		' ' + i.config_map['packages'].join(' ')
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
+	}
+}
+
+fn (i Installer) root() {
+	cmd := [
+		'echo',
+		'root:flightos',
+		'|',
+		'arch-chroot',
+		i.config_map['mount_prefix'].first(),
+		'chpasswd',
+	].join(' ')
 	result := os.system(cmd)
 	if result != 0 {
 		panic('A command "$cmd" returned non-zero exit code: $result')
@@ -161,12 +279,28 @@ fn (i Installer) run() {
 			i.fs()
 			i.mount()
 			i.pacstrap()
+			i.fstab()
+			i.timezone()
+			i.localization()
+			i.network()
+			i.root()
+			i.bootloader()
+			i.unmount()
+			i.success()
 		}
 		'Full' {
 			i.full_partition()
 			i.fs()
 			i.mount()
 			i.pacstrap()
+			i.fstab()
+			i.timezone()
+			i.localization()
+			i.network()
+			i.root()
+			i.bootloader()
+			i.unmount()
+			i.success()
 		}
 		else {
 			panic('Install mode "' + i.config_map['installation_mode'].first() + '" does not exist.')
@@ -176,6 +310,38 @@ fn (i Installer) run() {
 
 fn (i Installer) setup() {
 	cmd := 'pacman -Sy'
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
+	}
+}
+
+fn (i Installer) success() {
+	println('Installation complete!')
+}
+
+fn (i Installer) timezone() {
+	cmd := [
+		'arch-chroot',
+		i.config_map['mount_prefix'].first(),
+		'ln',
+		'-sf',
+		'/usr/share/zoneinfo/"' + i.config_map['timezone'].first() + '"',
+		'/etc/localtime',
+		'&&',
+		'arch-chroot',
+		i.config_map['mount_prefix'].first(),
+		'hwclock',
+		'--systohc',
+	].join(' ')
+	result := os.system(cmd)
+	if result != 0 {
+		panic('A command "$cmd" returned non-zero exit code: $result')
+	}
+}
+
+fn (i Installer) unmount() {
+	cmd := 'umount -R "' + i.config_map['mount_prefix'].first() + '"'
 	result := os.system(cmd)
 	if result != 0 {
 		panic('A command "$cmd" returned non-zero exit code: $result')
