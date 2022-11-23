@@ -17,7 +17,7 @@ curl -s https://raw.githubusercontent.com/sakkke/flightos/main/scripts/setup.sh 
 
 Help:
 ```shell
-curl -s https://raw.githubusercontent.com/sakkke/flightos/main/scripts/setup.sh | sh -s -h
+curl -s https://raw.githubusercontent.com/sakkke/flightos/main/scripts/setup.sh | sh -s -- -h
 ```
 
 ## Build
