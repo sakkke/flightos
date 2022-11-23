@@ -4,7 +4,7 @@ VFLAGS ?=
 MKDIR_P := mkdir -p
 RM_RF := rm -rf
 
-.PHONY: all build build-container-build build-container-vlang build-force clean clean-container dev setup
+.PHONY: all build check clean dev setup
 
 all: build
 
