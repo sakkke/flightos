@@ -15,6 +15,11 @@ One-liner:
 curl -s https://raw.githubusercontent.com/sakkke/flightos/main/scripts/setup.sh | sh
 ```
 
+Help:
+```shell
+curl -s https://raw.githubusercontent.com/sakkke/flightos/main/scripts/setup.sh | sh -s -h
+```
+
 ## Build
 
 Requirements:
