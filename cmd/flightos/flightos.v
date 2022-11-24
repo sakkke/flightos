@@ -60,19 +60,30 @@ fn main() {
 		config_map: config_map
 		fzf: new_fzf_prompt()
 		provider_map: {
-			'console_keymap':    new_provider(cmd: 'localectl list-keymaps --no-pager')
-			'installation_mode': new_provider(cmd: 'printf "Custom\nFull\n"')
+			'console_keymap':    new_provider(
+				cmd: 'localectl list-keymaps --no-pager'
+				desc: 'The console keymap name.'
+			)
+			'installation_mode': new_provider(
+				cmd: 'printf "Custom\nFull\n"'
+				desc: 'The installation mode.'
+			)
 			'disk':              new_provider(
 				cmd: 'sfdisk -l | grep "^Disk /" | awk "{ s = \\\$2; print substr(s, 1, length(s) - 1) }"'
+				desc: 'The path to disk.'
 			)
 			'packages':          new_provider(
 				cmd: 'pacman -Si | grep "^Name            : " | sed "s/^Name            : //"'
-				desc: ''
+				desc: 'List of packages.'
 				multi: true
 			)
-			'timezone':          new_provider(cmd: 'timedatectl list-timezones --no-pager')
+			'timezone':          new_provider(
+				cmd: 'timedatectl list-timezones --no-pager'
+				desc: 'The time zone.'
+			)
 			'locale':            new_provider(
 				cmd: 'cat /etc/locale.gen | grep "^#[a-z]" | sed "s/^#//"'
+				desc: 'The locale.'
 			)
 		}
 	}
