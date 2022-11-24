@@ -12,12 +12,15 @@ An Arch Linux distro.
 - **Fuzzy finder based UI**: the installer uses [fzf](https://github.com/junegunn/fzf).
 
 ## Installation Demo
-WIP
+[WIP](https://github.com/sakkke/flightos/issues/91)
 
 ## Table of Contents
 
 - [Flight OS](#flight-os)
     - [Features](#features)
+    - [Installation Demo](#installation-demo)
+    - [Table of Contents](#table-of-contents)
+    - [Setup](#setup)
     - [Development](#development)
         - [Build Dependencies](#build-dependencies)
         - [Build](#build)
