@@ -5,13 +5,18 @@
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/sakkke/flightos?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/sakkke/flightos?style=for-the-badge)
 
-**NB: WIP description**
+**NB: WIP description!**
 
 Flight OS is one of Arch Linux distros.
 It values **fast**, **simple**, and **maintainable**.
 It has tiling shell and very comfortable fuzzy finder based UI, so they helps to save time to search.
 Flight OS and its all apps are always free and open source!
-They connects some data connecting seamlessly.
+Minimum graphical app set is here.
+It includes a web browser and a terminal only.
+Web browser is very useful in the world.
+It is a bridge of the internet.
+Flight OS gives hyper Web integration!
+Apps connects some data connecting seamlessly and supports 3D UI.
 In that, you could find new things.
 Flight OS is super simple!
 Installation method is one-line command only, and initialization is also crazy easy.
