@@ -15,7 +15,6 @@ An Arch Linux distro.
 [WIP](https://github.com/sakkke/flightos/issues/91)
 
 ## Table of Contents
-
 - [Flight OS](#flight-os)
     - [Features](#features)
     - [Installation Demo](#installation-demo)
@@ -26,6 +25,7 @@ An Arch Linux distro.
         - [Build](#build)
     - [Contributing](#contributing)
     - [License](#license)
+    - [Footer](#footer)
 
 ## Setup
 [(Back to top)](#table-of-contents)
