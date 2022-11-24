@@ -21,10 +21,10 @@ check: setup
 
 clean:
 	$(RM_RF) ./dist
-	if docker inspect --type image flightos-build > /dev/null 2>&1; then \
+	if $(DOCKER) inspect --type image flightos-build > /dev/null 2>&1; then \
 		$(DOCKER) image rm flightos-build; \
 	fi
-	if docker inspect --type image flightos-vlang > /dev/null 2>&1; then \
+	if $(DOCKER) inspect --type image flightos-vlang > /dev/null 2>&1; then \
 		$(DOCKER) image rm flightos-vlang; \
 	fi
 
@@ -32,10 +32,10 @@ dev: setup
 	$(DOCKER) run --rm -it -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build
 
 fmt: setup
-	$(GIT) status --porcelain | $(AWK) '{ if ($$1 == "??" || $$1 == "A" || $$1 == "M") print $$2 }' | $(GREP) '.v$$' | $(XARGS) -r v fmt -w
+	$(GIT) status --porcelain | $(AWK) '{ if ($$1 == "??" || $$1 == "A" || $$1 == "M") print $$2 }' | $(GREP) '.v$$' | $(XARGS) -r $(VEXE) fmt -w
 
 setup:
-	if ! docker inspect --type image flightos-build > /dev/null 2>&1; then \
+	if ! $(DOCKER) inspect --type image flightos-build > /dev/null 2>&1; then \
 		$(DOCKER) build --build-arg VLANG_UID="$(shell id -u)" -t flightos-vlang ./containers/vlang; \
 		$(DOCKER) build -t flightos-build -f ./containers/build/Dockerfile .; \
 	fi
