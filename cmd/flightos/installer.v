@@ -53,7 +53,7 @@ fn (mut i Installer) configure() {
 			}
 			'interactive' {
 				provider := i.provider_map[key]
-				mut fzf_options := ['--expect=ctrl-n,ctrl-p']
+				mut fzf_options := ['--header="' + provider.desc + '"', '--expect=ctrl-n,ctrl-p']
 				if provider.multi {
 					fzf_options << '--multi'
 				}
