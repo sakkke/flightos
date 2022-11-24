@@ -6,9 +6,11 @@ VEXE := $(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-
 VFLAGS ?=
 MKDIR_P := mkdir -p
 RM_RF := rm -rf
+SED ?= sed
 XARGS ?= xargs
+to ?=
 
-.PHONY: all build check clean dev fmt setup
+.PHONY: all build check clean dev fmt setup upgrade
 
 all: build
 
@@ -39,3 +41,9 @@ setup:
 		$(DOCKER) build --build-arg VLANG_UID="$(shell id -u)" -t flightos-vlang ./containers/vlang; \
 		$(DOCKER) build -t flightos-build -f ./containers/build/Dockerfile .; \
 	fi
+
+upgrade:
+	if [ -z "$(to)" ]; then \
+		false; \
+	fi
+	$(SED) -i "s/$$(cat ./version.txt)/$(to)/" ./cmd/flightos/flightos.v ./v.mod ./version.txt
