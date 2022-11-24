@@ -1,10 +1,14 @@
+AWK ?= awk
 DOCKER ?= docker
+GIT ?= git
+GREP ?= grep
 VEXE := $(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build v
 VFLAGS ?=
 MKDIR_P := mkdir -p
 RM_RF := rm -rf
+XARGS ?= xargs
 
-.PHONY: all build check clean dev setup
+.PHONY: all build check clean dev fmt setup
 
 all: build
 
@@ -26,6 +30,9 @@ clean:
 
 dev: setup
 	$(DOCKER) run --rm -it -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build
+
+fmt: setup
+	$(GIT) status --porcelain | $(AWK) '{ if ($$1 == "??" || $$1 == "A" || $$1 == "M") print $$2 }' | $(GREP) '.v$$' | $(XARGS) -r v fmt -w
 
 setup:
 	if ! docker inspect --type image flightos-build > /dev/null 2>&1; then \
