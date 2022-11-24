@@ -5,7 +5,28 @@
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/sakkke/flightos?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/sakkke/flightos?style=for-the-badge)
 
-An Arch Linux distro.
+**NB: WIP description**
+
+Flight OS is one of Arch Linux distros.
+It values **fast**, **simple**, and **maintainable**.
+It has tiling shell and very comfortable fuzzy finder based UI, so they helps to save time to search.
+Flight OS and its all apps are always free and open source!
+They connects some data connecting seamlessly.
+In that, you could find new things.
+Flight OS is super simple!
+Installation method is one-line command only, and initialization is also crazy easy.
+Want to save your personalization?
+Flight OS supports system configuration and dotfiles.
+Base system uses Arch Linux, so the system is always latest every day.
+Can't boot?
+Want to bring back to past?
+You can initialize or bring back to past with Flight OS installer in few minutes.
+Want to try Flight OS?
+Let's find your destination with Flight OS!
+
+## Fastest Release Cycle
+There is the fastest release cycle.
+Upgrade is always easy.
 
 ## Features
 - **One-line installation from Archiso**: the installer is written in [V](https://github.com/vlang/v).
@@ -20,6 +41,7 @@ An Arch Linux distro.
     - [Installation Demo](#installation-demo)
     - [Table of Contents](#table-of-contents)
     - [Setup](#setup)
+    - [Philosophies](#philosophies)
     - [Development](#development)
         - [Build Dependencies](#build-dependencies)
         - [Build](#build)
@@ -39,6 +61,8 @@ Help:
 ```shell
 curl -s https://raw.githubusercontent.com/sakkke/flightos/main/scripts/setup.sh | sh -s -- -h
 ```
+
+## Philosophies
 
 ## Development
 [(Back to top)](#table-of-contents)
