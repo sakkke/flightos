@@ -9,19 +9,19 @@
 
 Flight OS is one of Arch Linux distros.
 It values **fast**, **simple**, and **maintainable**.
-It has tiling shell and very comfortable fuzzy finder based UI, so they helps to save time to search.
+It has tiling shell and very comfortable fuzzy finder based UI, so they helps to shorten search time and to save time.
 Flight OS and its all apps are always free and open source!
 Minimum graphical app set is here.
 It includes a web browser and a terminal only.
 Web browser is very useful in the world.
 It is a bridge of the internet.
 Flight OS gives hyper Web integration!
-Apps connects some data connecting seamlessly and supports 3D UI.
+Terminal based apps connects some data connecting seamlessly and supports 3D UI.
 In that, you could find new things.
 Flight OS is super simple!
 Installation method is one-line command only, and initialization is also crazy easy.
 Want to save your personalization?
-Flight OS supports system configuration and dotfiles.
+Flight OS supports applying configurations of system and dotfiles.
 Base system uses Arch Linux, so the system is always latest every day.
 Can't boot?
 Want to bring back to past?
