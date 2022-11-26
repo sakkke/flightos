@@ -7,7 +7,7 @@ import sakkke.vfzf { new_fzf_prompt }
 fn main() {
 	mut fp := flag.new_flag_parser(os.args)
 	fp.application('flightos')
-	fp.version('2022.11.8')
+	fp.version('2022.11.9')
 	fp.description('The Flight OS installer.')
 	fp.skip_executable()
 	mut config_map := map[string][]string{}
