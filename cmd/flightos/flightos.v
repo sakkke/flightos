@@ -14,6 +14,7 @@ fn main() {
 	config_map['mount_prefix'] = [
 		fp.string('mount_prefix', `M`, '/mnt', 'The path to mount directory.'),
 	]
+	config_map['mirrors'] = fp.string('mirrors', `u`, 'interactive', 'Comma-separated list of mirrors.').split(',')
 	config_map['console_keymap'] = [
 		fp.string('console-keymap', `k`, 'interactive', 'The console keymap name.'),
 	]
@@ -60,6 +61,11 @@ fn main() {
 		config_map: config_map
 		fzf: new_fzf_prompt()
 		provider_map: {
+			'mirrors':           new_provider(
+				cmd: 'curl -s "https://archlinux.org/mirrorlist/?country=all&protocol=https&ip_version=4&ip_version=6" | grep "^#Server = " | sed "s/^#Server = //"'
+				desc: 'pacman mirrors.'
+				multi: true
+			)
 			'console_keymap':    new_provider(
 				cmd: 'localectl list-keymaps --no-pager'
 				desc: 'The console keymap name.'
