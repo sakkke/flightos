@@ -216,7 +216,7 @@ fn (i Installer) localization() {
 
 fn (i Installer) mirrorlist() {
 	mirrorlist := '/etc/pacman.d/mirrorlist'
-	i.cmd('echo -n > "$mirrorlist"')
+	i.cmd('echo -n > "Server = $mirrorlist"')
 	for mirror in i.config_map['mirrors'] {
 		i.cmd('echo "$mirror" >> "$mirrorlist"')
 	}
