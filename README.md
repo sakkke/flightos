@@ -4,6 +4,7 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/sakkke/flightos?style=for-the-badge)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/sakkke/flightos?style=for-the-badge)
 ![GitHub](https://img.shields.io/github/license/sakkke/flightos?style=for-the-badge)
+![CalVer format](https://img.shields.io/badge/calver-YY.MM.MICRO-22bfda.svg?style=for-the-badge)
 
 **NB: WIP description!**
 
