@@ -14,7 +14,7 @@ fn main() {
 	config_map['mount_prefix'] = [
 		fp.string('mount_prefix', `M`, '/mnt', 'The path to mount directory.'),
 	]
-	config_map['mirrors'] = fp.string('mirrors', `u`, 'interactive', 'Comma-separated list of mirrors.').split(',')
+	config_map['mirrors'] = fp.string('mirrors', `U`, 'interactive', 'Comma-separated list of mirrors.').split(',')
 	config_map['console_keymap'] = [
 		fp.string('console-keymap', `k`, 'interactive', 'The console keymap name.'),
 	]
