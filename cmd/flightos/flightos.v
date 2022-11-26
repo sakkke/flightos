@@ -82,7 +82,7 @@ fn main() {
 				desc: 'The path to disk.'
 			)
 			'packages':          new_provider(
-				cmd: 'pacman -Si | grep "^Name            : " | sed "s/^Name            : //"'
+				cmd: 'pacman -Siy | grep "^Name            : " | sed "s/^Name            : //"'
 				desc: 'List of packages.'
 				multi: true
 			)

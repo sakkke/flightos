@@ -328,14 +328,6 @@ fn (i Installer) run() {
 	}
 }
 
-fn (i Installer) setup() {
-	cmd := 'pacman -Sy'
-	result := os.system(cmd)
-	if result != 0 {
-		panic('A command "$cmd" returned non-zero exit code: $result')
-	}
-}
-
 fn (i Installer) success() {
 	println('Installation complete!')
 }
