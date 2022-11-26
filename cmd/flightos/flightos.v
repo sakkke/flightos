@@ -67,7 +67,7 @@ fn main() {
 		path: config
 		mirrorlist: mirrorlist
 	}
-	pacman_conf.build()
+	pacman_conf.write()
 	mut installer := Installer{
 		config_map: config_map
 		fzf: new_fzf_prompt()
