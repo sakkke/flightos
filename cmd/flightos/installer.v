@@ -341,10 +341,11 @@ fn (i Installer) success() {
 }
 
 fn (i Installer) system() {
-	url := Url{i.config_map['system'].first()}
-	if url == 'default' {
+	s := i.config_map['system'].first()
+	if s == 'default' {
 		return
 	}
+	url := Url{s}
 	dir := os.vtmp_dir()
 	setup := '$dir/setup'
 	os.write_file(setup, url.get()) or { panic(err) }
