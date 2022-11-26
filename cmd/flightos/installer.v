@@ -41,6 +41,14 @@ fn (i Installer) bootloader() {
 	}
 }
 
+fn (i Installer) cmd(s string) int {
+	result := os.system(s)
+	if result != 0 {
+		panic('A command "$s" returned non-zero exit code: $result')
+	}
+	return result
+}
+
 fn (mut i Installer) configure() {
 	original_config_map := i.config_map.clone()
 	keys := i.config_map.keys()
@@ -206,6 +214,14 @@ fn (i Installer) localization() {
 	}
 }
 
+fn (i Installer) mirrorlist() {
+	mirrorlist := '/etc/pacman.d/mirrorlist'
+	i.cmd('echo -n > "$mirrorlist"')
+	for mirror in i.config_map['mirrors'] {
+		i.cmd('echo "$mirror" >> "$mirrorlist"')
+	}
+}
+
 fn (i Installer) mount() {
 	cmd := [
 		'mount',
@@ -275,6 +291,7 @@ fn (i Installer) root() {
 fn (i Installer) run() {
 	match i.config_map['installation_mode'].first() {
 		'Custom' {
+			i.mirrorlist()
 			i.custom_partition()
 			i.fs()
 			i.mount()
@@ -289,6 +306,7 @@ fn (i Installer) run() {
 			i.success()
 		}
 		'Full' {
+			i.mirrorlist()
 			i.full_partition()
 			i.fs()
 			i.mount()
