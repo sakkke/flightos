@@ -7,10 +7,11 @@ VFLAGS ?=
 MKDIR_P := mkdir -p
 RM_RF := rm -rf
 SED ?= sed
+WC ?= wc
 XARGS ?= xargs
 ver ?=
 
-.PHONY: all build check clean dev fmt setup upgrade
+.PHONY: all build check clean dev fmt loc setup upgrade
 
 all: build
 
@@ -35,6 +36,9 @@ dev: setup
 
 fmt: setup
 	$(GIT) status --porcelain | $(AWK) '{ if ($$1 == "??" || $$1 == "A" || $$1 == "M") print $$2 }' | $(GREP) '.v$$' | $(XARGS) -r $(VEXE) fmt -w
+
+loc:
+	$(GIT) ls-files | $(GREP) '.v$$' | $(XARGS) $(WC) -l
 
 release:
 	if [ -z "$(ver)" ]; then \
