@@ -67,7 +67,7 @@ fn (mut i Installer) configure() {
 					fzf_options << '--multi'
 				}
 				result := i.fzf.prompt(
-					choices: provider.get()
+					choices: provider.get(i)
 					fzf_options: fzf_options.join(' ')
 				)
 				input := result.first()
@@ -104,6 +104,18 @@ fn (i Installer) custom_partition() {
 			break
 		}
 	}
+}
+
+fn (i Installer) escape(s string) string {
+	runes := s.runes()
+	mut result := []rune{}
+	for r in runes {
+		if r == `\$` {
+			result << `\\`
+		}
+		result << r
+	}
+	return result.string()
 }
 
 fn (i Installer) fs() {
@@ -217,8 +229,9 @@ fn (i Installer) localization() {
 
 fn (i Installer) mirrorlist() {
 	mirrorlist := i.pacman_mirrorlist()
+	i.cmd('echo -n > "$mirrorlist"')
 	for mirror in i.config_map['mirrors'] {
-		i.cmd('echo \'Server = $mirror\' >> "$mirrorlist"')
+		i.cmd('echo "Server = ${i.escape(mirror)}" >> "$mirrorlist"')
 	}
 }
 
@@ -299,7 +312,6 @@ fn (i Installer) root() {
 fn (i Installer) run() {
 	match i.config_map['installation_mode'].first() {
 		'Custom' {
-			i.mirrorlist()
 			i.custom_partition()
 			i.fs()
 			i.mount()
@@ -315,7 +327,6 @@ fn (i Installer) run() {
 			i.success()
 		}
 		'Full' {
-			i.mirrorlist()
 			i.full_partition()
 			i.fs()
 			i.mount()

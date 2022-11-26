@@ -73,33 +73,48 @@ fn main() {
 		fzf: new_fzf_prompt()
 		provider_map: {
 			'mirrors':           new_provider(
-				cmd: 'curl -s "https://archlinux.org/mirrorlist/?country=all&protocol=https&ip_version=4&ip_version=6" | grep "^#Server = " | sed "s/^#Server = //"'
+				on_leave: fn (p Provider, i Installer) []string {
+					return p.cmd('curl -s "https://archlinux.org/mirrorlist/?country=all&protocol=https&ip_version=4&ip_version=6" | grep "^#Server = " | sed "s/^#Server = //"')
+				}
 				desc: 'pacman mirrors.'
 				multi: true
 			)
 			'console_keymap':    new_provider(
-				cmd: 'localectl list-keymaps --no-pager'
+				on_leave: fn (p Provider, i Installer) []string {
+					return p.cmd('localectl list-keymaps --no-pager')
+				}
 				desc: 'The console keymap name.'
 			)
 			'installation_mode': new_provider(
-				cmd: 'printf "Custom\nFull\n"'
+				on_leave: fn (p Provider, i Installer) []string {
+					return p.cmd('printf "Custom\nFull\n"')
+				}
 				desc: 'The installation mode.'
 			)
 			'disk':              new_provider(
-				cmd: 'sfdisk -l | grep "^Disk /" | awk "{ s = \\\$2; print substr(s, 1, length(s) - 1) }"'
+				on_leave: fn (p Provider, i Installer) []string {
+					return p.cmd('sfdisk -l | grep "^Disk /" | awk "{ s = \\\$2; print substr(s, 1, length(s) - 1) }"')
+				}
 				desc: 'The path to disk.'
 			)
 			'packages':          new_provider(
-				cmd: 'pacman --config "$config" -Siy | grep "^Name            : " | sed "s/^Name            : //"'
+				on_leave: fn [config] (p Provider, i Installer) []string {
+					i.mirrorlist()
+					return p.cmd('pacman --config "$config" -Siy | grep "^Name            : " | sed "s/^Name            : //"')
+				}
 				desc: 'List of packages.'
 				multi: true
 			)
 			'timezone':          new_provider(
-				cmd: 'timedatectl list-timezones --no-pager'
+				on_leave: fn (p Provider, i Installer) []string {
+					return p.cmd('timedatectl list-timezones --no-pager')
+				}
 				desc: 'The time zone.'
 			)
 			'locale':            new_provider(
-				cmd: 'cat /etc/locale.gen | grep "^#[a-z]" | sed "s/^#//"'
+				on_leave: fn (p Provider, i Installer) []string {
+					return p.cmd('cat /etc/locale.gen | grep "^#[a-z]" | sed "s/^#//"')
+				}
 				desc: 'The locale.'
 			)
 		}

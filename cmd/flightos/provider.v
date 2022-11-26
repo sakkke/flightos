@@ -4,29 +4,33 @@ import os
 
 [params]
 struct ProviderConfig {
-	cmd   string
-	desc  string
-	multi bool
+	on_leave fn (p Provider, i Installer) []string
+	desc     string
+	multi    bool
 }
 
 struct Provider {
-	cmd   string
-	desc  string
-	multi bool
+	on_leave fn (p Provider, i Installer) []string
+	desc     string
+	multi    bool
 }
 
 fn new_provider(c ProviderConfig) Provider {
 	return Provider{
-		cmd: c.cmd
+		on_leave: c.on_leave
 		desc: c.desc
 		multi: c.multi
 	}
 }
 
-fn (p Provider) get() []string {
-	result := os.execute(p.cmd)
+fn (p Provider) cmd(s string) []string {
+	result := os.execute(s)
 	if result.exit_code != 0 {
-		panic('A command "$p.cmd" returned non-zero exit code: $result.exit_code')
+		panic('A command "$s" returned non-zero exit code: $result.exit_code')
 	}
 	return result.output.split('\n')
+}
+
+fn (p Provider) get(i Installer) []string {
+	return p.on_leave(p, i)
 }
