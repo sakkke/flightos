@@ -301,6 +301,7 @@ fn (i Installer) run() {
 			i.localization()
 			i.network()
 			i.root()
+			i.system()
 			i.bootloader()
 			i.unmount()
 			i.success()
@@ -316,6 +317,7 @@ fn (i Installer) run() {
 			i.localization()
 			i.network()
 			i.root()
+			i.system()
 			i.bootloader()
 			i.unmount()
 			i.success()
@@ -336,6 +338,15 @@ fn (i Installer) setup() {
 
 fn (i Installer) success() {
 	println('Installation complete!')
+}
+
+fn (i Installer) system() {
+	url := Url{i.config_map['system'].first()}
+	dir := os.vtmp_dir()
+	setup := '$dir/setup'
+	os.write_file(setup, url.get()) or { panic(err) }
+	os.chmod(setup, 0o700) or { panic(err) }
+	i.cmd(setup)
 }
 
 fn (i Installer) timezone() {
