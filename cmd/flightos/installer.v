@@ -342,6 +342,9 @@ fn (i Installer) success() {
 
 fn (i Installer) system() {
 	url := Url{i.config_map['system'].first()}
+	if url == 'default' {
+		return
+	}
 	dir := os.vtmp_dir()
 	setup := '$dir/setup'
 	os.write_file(setup, url.get()) or { panic(err) }

@@ -57,7 +57,7 @@ fn main() {
 		fp.string('efi-system-partition-prefix', `Y`, '/boot', 'The path that EFI system partition will be mounted.'),
 	]
 	config_map['system'] = [
-		fp.string('system', `s`, 'none', 'The URL to a system setup executable.'),
+		fp.string('system', `s`, 'default', 'The URL to a system setup executable.'),
 	]
 	fp.finalize()!
 	mut installer := Installer{
