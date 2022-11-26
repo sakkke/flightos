@@ -96,7 +96,6 @@ fn main() {
 			)
 		}
 	}
-	installer.setup()
 	installer.configure()
 	installer.run()
 	println(installer)
