@@ -8,7 +8,7 @@ MKDIR_P := mkdir -p
 RM_RF := rm -rf
 SED ?= sed
 XARGS ?= xargs
-to ?=
+ver ?=
 
 .PHONY: all build check clean dev fmt setup upgrade
 
@@ -36,14 +36,14 @@ dev: setup
 fmt: setup
 	$(GIT) status --porcelain | $(AWK) '{ if ($$1 == "??" || $$1 == "A" || $$1 == "M") print $$2 }' | $(GREP) '.v$$' | $(XARGS) -r $(VEXE) fmt -w
 
+release:
+	if [ -z "$(ver)" ]; then \
+		false; \
+	fi
+	$(SED) -i "s/$$(cat ./version.txt)/$(ver)/" ./cmd/flightos/flightos.v ./v.mod ./version.txt
+
 setup:
 	if ! $(DOCKER) inspect --type image flightos-build > /dev/null 2>&1; then \
 		$(DOCKER) build --build-arg VLANG_UID="$(shell id -u)" -t flightos-vlang ./containers/vlang; \
 		$(DOCKER) build -t flightos-build -f ./containers/build/Dockerfile .; \
 	fi
-
-upgrade:
-	if [ -z "$(to)" ]; then \
-		false; \
-	fi
-	$(SED) -i "s/$$(cat ./version.txt)/$(to)/" ./cmd/flightos/flightos.v ./v.mod ./version.txt
