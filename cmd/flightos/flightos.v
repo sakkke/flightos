@@ -60,6 +60,14 @@ fn main() {
 		fp.string('system', `s`, 'default', 'The URL to a system setup executable.'),
 	]
 	fp.finalize()!
+	tmp_dir := os.vtmp_dir()
+	config := '$tmp_dir/pacman.conf'
+	mirrorlist := '$tmp_dir/mirrorlist'
+	pacman_conf := PacmanConf{
+		path: config
+		mirrorlist: mirrorlist
+	}
+	pacman_conf.build()
 	mut installer := Installer{
 		config_map: config_map
 		fzf: new_fzf_prompt()
@@ -82,7 +90,7 @@ fn main() {
 				desc: 'The path to disk.'
 			)
 			'packages':          new_provider(
-				cmd: 'pacman -Siy | grep "^Name            : " | sed "s/^Name            : //"'
+				cmd: 'pacman --config "$config" -Siy | grep "^Name            : " | sed "s/^Name            : //"'
 				desc: 'List of packages.'
 				multi: true
 			)
@@ -95,6 +103,7 @@ fn main() {
 				desc: 'The locale.'
 			)
 		}
+		tmp_dir: tmp_dir
 	}
 	installer.configure()
 	installer.run()

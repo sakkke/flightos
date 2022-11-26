@@ -18,6 +18,7 @@ struct Installer {
 	provider_map map[string]Provider
 mut:
 	config_map map[string][]string
+	tmp_dir    string
 }
 
 fn (i Installer) bootloader() {
@@ -215,7 +216,7 @@ fn (i Installer) localization() {
 }
 
 fn (i Installer) mirrorlist() {
-	mirrorlist := '/etc/pacman.d/mirrorlist'
+	mirrorlist := i.pacman_mirrorlist()
 	i.cmd('echo -n > "$mirrorlist"')
 	for mirror in i.config_map['mirrors'] {
 		i.cmd('echo "Server = $mirror" >> "$mirrorlist"')
@@ -264,9 +265,17 @@ fn (i Installer) network() {
 	}
 }
 
+fn (i Installer) pacman_conf() string {
+	return '$i.tmp_dir/pacman.conf'
+}
+
+fn (i Installer) pacman_mirrorlist() string {
+	return '$i.tmp_dir/mirrorlist'
+}
+
 fn (i Installer) pacstrap() {
-	cmd := 'pacstrap -K "' + i.config_map['mount_prefix'].first() + '" ' + base_packages.join(' ') +
-		' ' + i.config_map['packages'].join(' ')
+	cmd := 'pacstrap -C "$i.pacman_conf()" -K "' + i.config_map['mount_prefix'].first() + '" ' +
+		base_packages.join(' ') + ' ' + i.config_map['packages'].join(' ')
 	result := os.system(cmd)
 	if result != 0 {
 		panic('A command "$cmd" returned non-zero exit code: $result')
