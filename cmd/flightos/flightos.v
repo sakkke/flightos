@@ -41,10 +41,10 @@ fn main() {
 		fp.string('root-partition-end', `o`, '100%', 'The filesystem end of root partition.'),
 	]
 	config_map['efi_system_partition'] = [
-		fp.string('efi-system-partition', `s`, 'EFI_SYSTEM', 'The PARTLABEL name of EFI system partition.'),
+		fp.string('efi-system-partition', `e`, 'EFI_SYSTEM', 'The PARTLABEL name of EFI system partition.'),
 	]
 	config_map['efi_system_partition_fs'] = [
-		fp.string('efi-system-partition-fs', `S`, 'fat32', 'The filesystem name of EFI system partition.'),
+		fp.string('efi-system-partition-fs', `E`, 'fat32', 'The filesystem name of EFI system partition.'),
 	]
 	config_map['timezone'] = [
 		fp.string('timezone', `t`, 'interactive', 'The time zone.'),
