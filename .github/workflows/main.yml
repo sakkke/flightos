@@ -22,10 +22,10 @@ jobs:
         if: "startsWith(github.event.head_commit.message, 'chore(release): ')"
       - name: Pack
         run: cd ./dist && tar -acf flightos-"$RELEASE_VERSION".tar.gz flightos
-        if: startsWith(github.ref, 'refs/tags/')
+        if: "startsWith(github.event.head_commit.message, 'chore(release): ')"
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+        if: "startsWith(github.event.head_commit.message, 'chore(release): ')"
         with:
           files: dist/flightos-${{ env.RELEASE_VERSION }}.tar.gz
           generate_release_notes: true
