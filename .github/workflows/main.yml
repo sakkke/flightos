@@ -18,7 +18,7 @@ jobs:
       - name: Tag
         run: |
           git tag "$RELEASE_VERSION"
-          git push origin "$RELEASE_VERSION"
+          git push --tags origin main
         if: "startsWith(github.event.head_commit.message, 'chore(release): ')"
       - name: Pack
         run: cd ./dist && tar -acf flightos-"$RELEASE_VERSION".tar.gz flightos
