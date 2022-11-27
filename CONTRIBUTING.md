@@ -47,7 +47,8 @@ Scope Examples:
 4. Work. When the work is done, please run `make fmt`.
 5. Commit with following (commit messages)[#commit-messages]
 6. [Create an new pull request](https://github.com/sakkke/flightos/compare).
-7. Done! Back to 1.
+7. When a pull request is merged, close an issue.
+8. Done! Back to 1.
 
 ## Release Workflow
 1. [Create an issue](https://github.com/sakkke/flightos/issues).
@@ -56,4 +57,5 @@ Scope Examples:
 4. Run `make release ver=<next-version>`.
 5. Commit with `chore(release): <next-version>`.
 6. [Create an new pull request](https://github.com/sakkke/flightos/compare).
-7. Done!
+7. When a pull request is merged, close an issue.
+8. Done!
