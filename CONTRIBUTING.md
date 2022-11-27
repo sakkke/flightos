@@ -24,6 +24,20 @@ More Examples:
 - `test`: (adding missing tests, refactoring tests; no production code change)
 - `chore`: (updating grunt tasks etc; no production code change)
 
+### Scopes
+- none: (changes to production code)
+- `build`: (changes to compiler options, etc.)
+- `dev`: (improves DX)
+- `task`: (changes to tasks)
+- `workflow`: (changes to workflows)
+
+Scope Examples:
+- `feat: implement the basic feature`
+- `chore(build): add -prod option`
+- `chore(dev): add .editorconfig`
+- `chore(task): add build`
+- `chore(workflow): add release step`
+
 ## Commit Workflow
 1. [Create an issue](https://github.com/sakkke/flightos/issues).
 2. [Fork this repository](https://github.com/sakkke/flightos/fork).
