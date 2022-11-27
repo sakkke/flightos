@@ -1,9 +1,22 @@
 # Contributing
 
+## Table of Contents
+
+- [Contributing](#contributing)
+    - [Versioning](#versioning)
+    - [Commit Messages](#commit-messages)
+        - [Scopes](#scopes)
+    - [Commit Workflow](#commit-workflow)
+    - [Release Workflow](#release-workflow)
+
 ## Versioning
+[(Back to top)](#table-of-contents)
+
 This project uses [CalVer](https://calver.org/) with `YYYY.0M.MICRO`.
 
-## Commit messages
+## Commit Messages
+[(Back to top)](#table-of-contents)
+
 This project uses [Semantic Commit Messages](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716).
 
 ```
@@ -25,6 +38,8 @@ More Examples:
 - `chore`: (updating grunt tasks etc; no production code change)
 
 ### Scopes
+[(Back to top)](#table-of-contents)
+
 - none: (changes to production code)
 - `build`: (changes to compiler options, etc.)
 - `dev`: (improves DX)
@@ -41,6 +56,8 @@ Scope Examples:
 - `chore(workflow): add release step`
 
 ## Commit Workflow
+[(Back to top)](#table-of-contents)
+
 1. [Create an issue](https://github.com/sakkke/flightos/issues).
 2. [Fork this repository](https://github.com/sakkke/flightos/fork).
 3. Create an new branch.
@@ -51,6 +68,8 @@ Scope Examples:
 8. Done! Back to 1.
 
 ## Release Workflow
+[(Back to top)](#table-of-contents)
+
 1. [Create an issue](https://github.com/sakkke/flightos/issues).
 2. [Fork this repository](https://github.com/sakkke/flightos/fork).
 3. Create an new branch.
