@@ -13,7 +13,7 @@ WC ?= wc
 XARGS ?= xargs
 ver ?=
 
-.PHONY: all build check clean dev fmt loc setup upgrade
+.PHONY: all build check clean dev draft fmt loc setup upgrade
 
 all: build
 
@@ -35,6 +35,13 @@ clean:
 
 dev: setup
 	$(DOCKER) run --rm -it -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build
+
+draft:
+	if [ -z "$(ver)" ]; then \
+		$(FALSE); \
+	fi
+	git commit --allow-empty -m "chore(draft): $(ver)"
+	$(GIT) push origin HEAD
 
 fmt: setup
 	$(GIT) status --porcelain | $(AWK) '{ if ($$1 == "??" || $$1 == "A" || $$1 == "M") print $$2 }' | $(GREP) '.v$$' | $(XARGS) -r $(VEXE) fmt -w
