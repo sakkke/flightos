@@ -1,4 +1,5 @@
 AWK ?= awk
+CAT ?= cat
 DOCKER ?= docker
 GIT ?= git
 GREP ?= grep
@@ -44,9 +45,9 @@ release:
 	if [ -z "$(ver)" ]; then \
 		false; \
 	fi
-	$(SED) -i "s/$$(cat ./version.txt)/$(ver)/" ./cmd/flightos/flightos.v ./v.mod ./version.txt
-	git add ./cmd/flightos/flightos.v /v.mod ./version.txt
-	git commit -m "chore(release): $$(cat ./version.txt)"
+	$(SED) -i "s/$$($(CAT) ./version.txt)/$(ver)/" ./cmd/flightos/flightos.v ./v.mod ./version.txt
+	$(GIT) add ./cmd/flightos/flightos.v /v.mod ./version.txt
+	$(GIT) commit -m "chore(release): $$($(CAT) ./version.txt)"
 	$(GIT) push origin HEAD
 
 setup:
