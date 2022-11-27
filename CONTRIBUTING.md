@@ -73,8 +73,7 @@ Scope Examples:
 1. [Create an issue](https://github.com/sakkke/flightos/issues) titled `Releasing <next-version>`.
 2. [Fork this repository](https://github.com/sakkke/flightos/fork).
 3. Create an new branch.
-4. Run `make release ver=<next-version>`.
-5. Commit with `chore(release): <next-version>`.
-6. [Create an new pull request](https://github.com/sakkke/flightos/compare).
-7. When a pull request is merged, close an issue.
-8. Done!
+4. Commit with `chore(draft): <next-version>`.
+5. [Create an new pull request](https://github.com/sakkke/flightos/compare).
+6. When a pull request is merged, close an issue.
+7. Done!
