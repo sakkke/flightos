@@ -50,6 +50,7 @@ release:
 	$(GIT) add ./cmd/flightos/flightos.v ./v.mod ./version.txt
 	$(GIT) commit -m "chore(release): $$($(CAT) ./version.txt)"
 	$(GIT) push origin HEAD
+	$(GIT) push origin "$$($(CAT) ./version.txt)"
 
 setup:
 	if ! $(DOCKER) inspect --type image flightos-build > /dev/null 2>&1; then \
