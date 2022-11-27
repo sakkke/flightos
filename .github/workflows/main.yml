@@ -6,6 +6,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+      - name: Setup
+        run: |
+          COMMIT_MESSAGE="$(head -n 1 <<< "${{ github.event.head_commit.message }}")"
+          echo COMMIT_MESSAGE="$COMMIT_MESSAGE" >> "$GITHUB_ENV"
+          echo RELEASE_VERSION="${COMMIT_MESSAGE:16}" >> "$GITHUB_ENV"
       - name: Build
         run: make
       - name: Test
