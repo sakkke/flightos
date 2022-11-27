@@ -70,7 +70,7 @@ Scope Examples:
 ## Release Workflow
 [(Back to top)](#table-of-contents)
 
-1. [Create an issue](https://github.com/sakkke/flightos/issues).
+1. [Create an issue](https://github.com/sakkke/flightos/issues) titled `Releasing <next-version>`.
 2. [Fork this repository](https://github.com/sakkke/flightos/fork).
 3. Create an new branch.
 4. Run `make release ver=<next-version>`.
