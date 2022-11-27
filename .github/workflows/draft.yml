@@ -8,7 +8,7 @@ on:
 jobs:
   draft:
     runs-on: ubuntu-latest
-    if: "github.event.workflow_run.conclusion == 'success' && startsWith(github.event.head_commit.message, 'chore(draft): ')"
+    if: "${{ github.event.workflow_run.conclusion == 'success' && startsWith(github.event.head_commit.message, 'chore(draft): ') }}"
     steps:
       - name: Setup
         run: |
