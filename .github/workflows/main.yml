@@ -20,12 +20,19 @@ jobs:
           git tag "$RELEASE_VERSION"
           git push --tags
         if: "startsWith(github.event.head_commit.message, 'chore(release): ')"
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: "startsWith(github.event.head_commit.message, 'chore(release): ')"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Build
+        run: make
       - name: Pack
         run: cd ./dist && tar -acf flightos-"$RELEASE_VERSION".tar.gz flightos
-        if: "startsWith(github.event.head_commit.message, 'chore(release): ')"
       - name: Release
         uses: softprops/action-gh-release@v1
-        if: "startsWith(github.event.head_commit.message, 'chore(release): ')"
         with:
           files: dist/flightos-${{ env.RELEASE_VERSION }}.tar.gz
           generate_release_notes: true
