@@ -51,5 +51,6 @@ Scope Examples:
 2. [Fork this repository](https://github.com/sakkke/flightos/fork).
 3. Create an new branch.
 4. Run `make release ver=<next-version>`.
-5. [Create an new pull request](https://github.com/sakkke/flightos/compare).
-6. Done!
+5. Commit with `chore(release): <next-version>`.
+6. [Create an new pull request](https://github.com/sakkke/flightos/compare).
+7. Done!
