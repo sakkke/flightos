@@ -8,14 +8,15 @@ on:
 jobs:
   draft:
     runs-on: ubuntu-latest
-    if: "${{ github.event.workflow_run.conclusion == 'success' && startsWith(github.event.head_commit.message, 'chore(draft): ') }}"
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Setup
         run: |
-          COMMIT_MESSAGE="$(head -n 1 <<< "${{ github.event.head_commit.message }}")"
+          COMMIT_MESSAGE="$(git log --pretty=%B -1 | head -n 1)"
           echo RELEASE_VERSION="${COMMIT_MESSAGE:14}" >> "$GITHUB_ENV"
       - name: Tag
         run: |
           git config --global user.email 84666033+github-actions[bot]@users.noreply.github.com
           git config --global user.name github-actions[bot]
           make release ver="${{ env.RELEASE_VERSION }}"
+        if: "${{ startsWith(github.event.head_commit.message, 'chore(draft): ' }}"
