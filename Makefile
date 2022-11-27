@@ -47,7 +47,7 @@ release:
 		$(FALSE); \
 	fi
 	$(SED) -i "s/$$($(CAT) ./version.txt)/$(ver)/" ./cmd/flightos/flightos.v ./v.mod ./version.txt
-	$(GIT) add ./cmd/flightos/flightos.v /v.mod ./version.txt
+	$(GIT) add ./cmd/flightos/flightos.v ./v.mod ./version.txt
 	$(GIT) commit -m "chore(release): $$($(CAT) ./version.txt)"
 	$(GIT) push origin HEAD
 
