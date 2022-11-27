@@ -1,6 +1,7 @@
 AWK ?= awk
 CAT ?= cat
 DOCKER ?= docker
+FALSE ?= false
 GIT ?= git
 GREP ?= grep
 VEXE := $(DOCKER) run --rm -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build v
@@ -43,7 +44,7 @@ loc:
 
 release:
 	if [ -z "$(ver)" ]; then \
-		false; \
+		$(FALSE); \
 	fi
 	$(SED) -i "s/$$($(CAT) ./version.txt)/$(ver)/" ./cmd/flightos/flightos.v ./v.mod ./version.txt
 	$(GIT) add ./cmd/flightos/flightos.v /v.mod ./version.txt
