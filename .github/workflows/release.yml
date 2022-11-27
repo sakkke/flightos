@@ -1,0 +1,25 @@
+name: Release
+on:
+  workflow_run:
+    workflows:
+      - Draft
+    types:
+      - completed
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    if: github.event.workflow_run.conclusion == 'success'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup
+        run: echo RELEASE_VERSION="${GITHUB_REF#refs/tags/*}" >> "$GITHUB_ENV"
+      - name: Build
+        run: make
+      - name: Pack
+        run: cd ./dist && tar -acf flightos-"$RELEASE_VERSION".tar.gz flightos
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: dist/flightos-${{ env.RELEASE_VERSION }}.tar.gz
+          generate_release_notes: true
