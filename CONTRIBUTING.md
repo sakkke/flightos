@@ -28,6 +28,7 @@ More Examples:
 - none: (changes to production code)
 - `build`: (changes to compiler options, etc.)
 - `dev`: (improves DX)
+- `release`: (releases an new version **only**, for more information, please see how to [release workflow](#release-workflow))
 - `task`: (changes to tasks)
 - `workflow`: (changes to workflows)
 
@@ -35,6 +36,7 @@ Scope Examples:
 - `feat: implement the basic feature`
 - `chore(build): add -prod option`
 - `chore(dev): add .editorconfig`
+- `chore(release): 2023.01.0`
 - `chore(task): add build`
 - `chore(workflow): add release step`
 
