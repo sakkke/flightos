@@ -70,10 +70,8 @@ Scope Examples:
 ## Release Workflow
 [(Back to top)](#table-of-contents)
 
-1. [Create an issue](https://github.com/sakkke/flightos/issues) titled `Releasing <next-version>`.
-2. [Fork this repository](https://github.com/sakkke/flightos/fork).
-3. Create an new branch.
-4. Run `make draft ver=<next-version>`.
-5. [Create an new pull request](https://github.com/sakkke/flightos/compare).
-6. When a pull request is merged, close an issue.
-7. Done!
+Core members only.
+
+1. Run `make release ver=<next-version>`.
+2. Run `git push --tags`.
+3. Done!

@@ -36,20 +36,16 @@ clean:
 dev: setup
 	$(DOCKER) run --rm -it -v "$${LOCAL_WORKSPACE_FOLDER:-$$PWD}":/src flightos-build
 
-draft:
-	if [ -z "$(ver)" ]; then \
-		$(FALSE); \
-	fi
-	git commit --allow-empty -m "chore(draft): $(ver)"
-	$(GIT) push
-
 fmt: setup
 	$(GIT) status --porcelain | $(AWK) '{ if ($$1 == "??" || $$1 == "A" || $$1 == "M") print $$2 }' | $(GREP) '.v$$' | $(XARGS) -r $(VEXE) fmt -w
 
 loc:
 	$(GIT) ls-files | $(GREP) '.v$$' | $(XARGS) $(WC) -l
 
-release:
+release: build check
+	if [ "$$$(git status --porcelain | wc -l)" != 0 ]; then \
+		$(FALSE); \
+	fi
 	if [ -z "$(ver)" ]; then \
 		$(FALSE); \
 	fi
@@ -57,8 +53,6 @@ release:
 	$(GIT) add ./cmd/flightos/flightos.v ./v.mod ./version.txt
 	$(GIT) commit -m "chore(release): $(ver)"
 	$(GIT) tag "$(ver)"
-	$(GIT) push
-	$(GIT) push origin "$(ver)"
 
 setup:
 	if ! $(DOCKER) inspect --type image flightos-build > /dev/null 2>&1; then \
