@@ -16,8 +16,6 @@ jobs:
             echo RELEASE_VERSION="${COMMIT_MESSAGE:14}" >> "$GITHUB_ENV"
           elif grep -q '^chore(release): ' <<< "$COMMIT_MESSAGE"; then
             echo RELEASE_VERSION="${COMMIT_MESSAGE:16}" >> "$GITHUB_ENV"
-          else
-            false
           fi
       - name: Build
         run: make
