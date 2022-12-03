@@ -55,9 +55,10 @@ release:
 	fi
 	$(SED) -i "s/$$($(CAT) ./version.txt)/$(ver)/" ./cmd/flightos/flightos.v ./v.mod ./version.txt
 	$(GIT) add ./cmd/flightos/flightos.v ./v.mod ./version.txt
-	$(GIT) commit -m "chore(release): $$($(CAT) ./version.txt)"
+	$(GIT) commit -m "chore(release): $(ver)"
+	$(GIT) tag "$(ver)"
 	$(GIT) push origin HEAD
-	$(GIT) push origin "$$($(CAT) ./version.txt)"
+	$(GIT) push origin "$(ver)"
 
 setup:
 	if ! $(DOCKER) inspect --type image flightos-build > /dev/null 2>&1; then \
