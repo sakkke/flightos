@@ -57,7 +57,7 @@ release:
 	$(GIT) add ./cmd/flightos/flightos.v ./v.mod ./version.txt
 	$(GIT) commit -m "chore(release): $(ver)"
 	$(GIT) tag "$(ver)"
-	$(GIT) push origin HEAD
+	$(GIT) push
 	$(GIT) push origin "$(ver)"
 
 setup:

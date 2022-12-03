@@ -6,6 +6,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
       - name: Setup
         run: |
           COMMIT_MESSAGE="$(head -n 1 <<< "${{ github.event.head_commit.message }}")"
