@@ -41,7 +41,7 @@ draft:
 		$(FALSE); \
 	fi
 	git commit --allow-empty -m "chore(draft): $(ver)"
-	$(GIT) push origin HEAD
+	$(GIT) push
 
 fmt: setup
 	$(GIT) status --porcelain | $(AWK) '{ if ($$1 == "??" || $$1 == "A" || $$1 == "M") print $$2 }' | $(GREP) '.v$$' | $(XARGS) -r $(VEXE) fmt -w
