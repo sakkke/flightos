@@ -19,7 +19,7 @@ jobs:
           git config --global user.email 84666033+github-actions[bot]@users.noreply.github.com
           git config --global user.name github-actions[bot]
           make release ver="${{ env.RELEASE_VERSION }}"
-        if: "${{ startsWith(env.RELEASE_VERSION, 'chore(draft): ') }}"
+        if: "startsWith(env.RELEASE_VERSION, 'chore(draft): ')"
       - name: Pack
         run: cd ./dist && tar -acf flightos-"$RELEASE_VERSION".tar.gz flightos
         if: startsWith(github.ref, 'refs/tags/')
