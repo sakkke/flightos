@@ -73,5 +73,5 @@ Scope Examples:
 Core members only.
 
 1. Run `make release ver=<next-version>`.
-2. Run `git push --tags`.
+2. Run `git push origin main && git push origin --tags`.
 3. Done!
