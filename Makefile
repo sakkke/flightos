@@ -43,7 +43,7 @@ loc:
 	$(GIT) ls-files | $(GREP) '.v$$' | $(XARGS) $(WC) -l
 
 release: build check
-	if [ "$$$(git status --porcelain | wc -l)" != 0 ]; then \
+	if [ "$$(git status --porcelain | wc -l)" != 0 ]; then \
 		$(FALSE); \
 	fi
 	if [ -z "$(ver)" ]; then \
