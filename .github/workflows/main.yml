@@ -12,7 +12,11 @@ jobs:
         run: |
           COMMIT_MESSAGE="$(head -n 1 <<< "${{ github.event.head_commit.message }}")"
           echo COMMIT_MESSAGE="$COMMIT_MESSAGE" >> "$GITHUB_ENV"
-          echo RELEASE_VERSION="${COMMIT_MESSAGE:16}" >> "$GITHUB_ENV"
+          if grep -q '^chore(draft): ' <<< "$COMMIT_MESSAGE"; then
+            echo RELEASE_VERSION="${COMMIT_MESSAGE:14}" >> "$GITHUB_ENV"
+          elif grep -q '^chore(release): ' <<< "$COMMIT_MESSAGE"; then
+            echo RELEASE_VERSION="${COMMIT_MESSAGE:16}" >> "$GITHUB_ENV"
+          fi
       - name: Build
         run: make
       - name: Test
