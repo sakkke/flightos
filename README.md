@@ -6,6 +6,8 @@
 ![GitHub](https://img.shields.io/github/license/sakkke/flightos?style=for-the-badge)
 ![CalVer format](https://img.shields.io/badge/calver-YYYY.0M.MICRO-22bfda.svg?style=for-the-badge)
 
+[![My Tech Stack](https://github-readme-tech-stack.vercel.app/api/cards?title=Flight%20OS%27s%20Tech%20Stack&lineCount=1&line1=v,v,5D87BF)](https://github-readme-tech-stack.vercel.app/api/cards)
+
 **NB: WIP description!**
 
 Flight OS is one of Arch Linux distros.
